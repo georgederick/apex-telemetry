@@ -87,12 +87,6 @@ Open `http://localhost:8000`. Opening `index.html` directly also works.
 3. Select the `main` branch and the `/ (root)` folder, then save.
 4. The site goes live at `https://georgederick.github.io/apex-telemetry/`.
 
-## Screenshots
-
-![Overview](assets/images/overview.png)
-![Telemetry Lab](assets/images/telemetry-lab.png)
-![Driver Comparison](assets/images/driver-comparison.png)
-![Circuits](assets/images/circuits.png)
 
 ## License
 
