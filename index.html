@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apex Telemetry</title>
+<meta name="description" content="Formula 1 telemetry analysis powered by the OpenF1 API. Developed by georgederick.">
+<link rel="icon" type="image/svg+xml" href="assets/icons/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<aside class="side" id="side">
+<div class="brand">
+<img src="assets/icons/logo-mark.svg" width="38" height="38" alt="">
+<span>Apex<b>Telemetry</b></span>
+</div>
+<nav id="nav">
+<button data-page="overview" class="on">Overview</button>
+<button data-page="sessions">Race Sessions</button>
+<button data-page="telemetry">Telemetry Lab</button>
+<button data-page="drivers">Driver Comparison</button>
+<button data-page="circuits">Circuits</button>
+<button data-page="about">About</button>
+</nav>
+<div class="credit">
+<p>Developed by georgederick</p>
+<a href="https://openf1.org/" target="_blank" rel="noopener">Data provided by OpenF1 API</a>
+</div>
+</aside>
+<div class="main">
+<header class="top">
+<button id="burger" aria-label="Open menu">Menu</button>
+<h1 id="title">Overview</h1>
+<div class="ctx">
+<label>Season<select id="sel-year"></select></label>
+<label>Grand Prix<select id="sel-meeting"></select></label>
+<label>Session<select id="sel-session"></select></label>
+<button id="refresh" class="btn ghost">Refresh data</button>
+</div>
+<span class="chip">Live source: OpenF1</span>
+<div class="user"><i>G</i>georgederick</div>
+</header>
+<div id="banner" hidden title="Click to dismiss"></div>
+<main>
+<section class="page on" id="page-overview">
+<div class="hero" id="ov-hero"></div>
+<div class="grid5" id="ov-stats"></div>
+<div class="grid2">
+<div class="card"><h2>Sessions per month</h2><div class="cv"><canvas id="ov-chart"></canvas></div></div>
+<div class="card"><h2>Session types</h2><div class="cv"><canvas id="ov-types"></canvas></div></div>
+</div>
+<div class="grid2">
+<div class="card"><h2>Grands Prix this season</h2><div id="ov-meetings" class="list"></div></div>
+<div class="card"><h2>Recent activity</h2><div id="ov-activity" class="list"></div></div>
+</div>
+</section>
+<section class="page" id="page-sessions">
+<div class="card">
+<div class="bar"><div><h2 id="ss-title">Race Sessions</h2><p class="muted" id="ss-sub"></p></div><button id="ss-load" class="btn">Load session data</button></div>
+<div class="filters"><input id="ss-filter" type="search" placeholder="Filter by driver or team"><select id="ss-team"><option value="">All teams</option></select></div>
+<div id="ss-table" class="scroll"></div>
+</div>
+<div class="grid2">
+<div class="card"><h2>Weather</h2><div id="ss-weather"></div></div>
+<div class="card"><h2>Race control</h2><div id="ss-rc" class="list"></div></div>
+</div>
+</section>
+<section class="page" id="page-telemetry">
+<div class="card">
+<div class="tl-form">
+<label>Driver A<select id="tl-a"></select></label>
+<label>Lap A<select id="tl-la"></select></label>
+<label>Driver B<select id="tl-b"></select></label>
+<label>Lap B<select id="tl-lb"></select></label>
+<button id="tl-go" class="btn">Analyze</button>
+</div>
+</div>
+<div class="card">
+<div class="tabs" id="tl-tabs">
+<button data-m="speed" class="on">Speed</button>
+<button data-m="throttle">Throttle</button>
+<button data-m="brake">Brake</button>
+<button data-m="rpm">RPM</button>
+<button data-m="gear">Gear</button>
+<button data-m="delta">Delta</button>
+</div>
+<div id="tl-cv" class="cv tall" hidden><canvas id="tl-chart"></canvas></div>
+<p class="muted note" id="tl-note"></p>
+<div id="tl-msg"></div>
+</div>
+<div class="grid2" id="tl-sum"></div>
+</section>
+<section class="page" id="page-drivers">
+<div class="card">
+<div class="tl-form">
+<label>Driver A<select id="dc-a"></select></label>
+<label>Driver B<select id="dc-b"></select></label>
+<button id="dc-go" class="btn">Compare</button>
+</div>
+</div>
+<div class="grid2">
+<div class="card"><h2>Head to head</h2><div id="dc-table" class="scroll"></div></div>
+<div class="card"><h2>Performance radar</h2><div id="dc-cv" class="cv" hidden><canvas id="dc-radar"></canvas></div><div id="dc-msg"></div></div>
+</div>
+</section>
+<section class="page" id="page-circuits">
+<div class="grid2 cir">
+<div class="card"><h2 id="ci-h">Circuits</h2><div id="ci-list" class="list"></div></div>
+<div class="card"><div id="ci-info"></div><div id="ci-map" class="map"></div></div>
+</div>
+</section>
+<section class="page" id="page-about">
+<div class="card prose">
+<img class="about-logo" src="assets/icons/logo-mark.svg" width="64" height="64" alt="Apex Telemetry logo">
+<h2>About Apex Telemetry</h2>
+<p>Apex Telemetry is a browser-based Formula 1 telemetry lab. It reads historical session data straight from the OpenF1 API and turns it into speed, throttle, brake, RPM and gear traces, driver comparisons and track layouts.</p>
+<p>Every number shown comes from an OpenF1 response. When a value is missing the interface says Data unavailable instead of filling the gap.</p>
+<p>OpenF1 is an independent, unofficial project and is not affiliated with Formula 1. The free tier allows 3 requests per second and 30 per minute, so responses are cached in your browser and loaded only when you ask for them.</p>
+<p>Developed by georgederick. Data provided by <a href="https://openf1.org/" target="_blank" rel="noopener">OpenF1 API</a>.</p>
+</div>
+</section>
+</main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/flags.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/telemetry.js"></script>
+<script src="js/drivers.js"></script>
+<script src="js/circuits.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

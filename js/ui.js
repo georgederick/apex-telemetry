@@ -1,0 +1,17 @@
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const NA='Data unavailable';
+const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const isNum=n=>typeof n==='number'&&isFinite(n);
+const fmtLap=s=>{if(!isNum(s))return NA;const m=Math.floor(s/60);return m+':'+(s-m*60).toFixed(3).padStart(6,'0')};
+const fmtSec=s=>isNum(s)?s.toFixed(3):NA;
+const fmtNum=(v,u,d)=>isNum(v)?v.toFixed(d||0)+(u||''):NA;
+const fmtDate=s=>s?new Date(s).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):NA;
+const loadingHtml='<div class="load"><i></i><i></i><i></i></div>';
+const setLoading=el=>{el.innerHTML=loadingHtml};
+const setEmpty=(el,m)=>{el.innerHTML='<div class="empty">'+esc(m)+'</div>'};
+const notify=m=>{const b=$('#banner');b.textContent=m;b.hidden=false};
+const teamColor=d=>'#'+((d&&d.team_colour)||'FF8000');
+const validLap=l=>!!(l&&l.date_start&&isNum(l.lap_duration));
+const bestLap=laps=>laps.filter(validLap).reduce((a,l)=>!a||l.lap_duration<a.lap_duration?l:a,null);
+const driverLabel=d=>(d.name_acronym||'#'+d.driver_number)+' #'+d.driver_number+' '+(d.full_name||'');
